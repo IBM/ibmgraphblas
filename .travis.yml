@@ -1,0 +1,30 @@
+#https://stackoverflow.com/questions/41916656/how-to-use-travis-ci-to-build-modern-c-using-modern-cmake
+#x
+dist: xenial
+#xsudo: required
+language:
+  - cpp
+#xcompiler:
+#x  - gcc
+#xaddons:
+#x  apt:
+#x    sources:
+#x      - ubuntu-toolchain-r-test
+#x    packages:
+#x#      - gcc-6
+#x#      - g++-6
+#x      - cmake
+script:
+#x#  # Link gcc-6 and g++-6 to their standard commands
+#x#  - ln -s /usr/bin/gcc-6 /usr/local/bin/gcc
+#x#  - ln -s /usr/bin/g++-6 /usr/local/bin/g++
+#x#  # Export CC and CXX to tell cmake which compiler to use
+#x#  - export CC=/usr/bin/gcc-6
+#x#  - export CXX=/usr/bin/g++-6
+#x  # Check versions of gcc, g++ and cmake
+  - gcc -v && g++ -v && cmake --version
+#x  # Run your build commands next
+  - make
+#x
+  - cd build
+  - CTEST_OUTPUT_ON_FAILURE=1 ctest -VV
