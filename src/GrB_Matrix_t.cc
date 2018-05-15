@@ -26,6 +26,7 @@ GrB_Matrix_t::GrB_Matrix_t
 )
 {
     _valid = false;
+    _copy = false;
     _D = 0;
     _nrows = 0;
     _ncols = 0;
@@ -37,13 +38,12 @@ GrB_Matrix_t::GrB_Matrix_t
 )
 {
     _valid = true;
+    _copy = true;
     _D = A.D();
     _nrows = A._nrows;
     _ncols = A._ncols;
-    _rows.resize(_nrows); for (GrB_Index i=0; i<_nrows; i++) _rows[i] = new GrB_Vector_t(A.D(),_ncols);
-    _cols.resize(_ncols); for (GrB_Index j=0; j<_ncols; j++) _cols[j] = new GrB_Vector_t(A.D(),_nrows);
-    for (GrB_Index i=0; i<_nrows; i++) _rows[i]->copy(A[i]);
-    for (GrB_Index j=0; j<_ncols; j++) _cols[j]->copy(A(j));
+    _rows.resize(_nrows); for (GrB_Index i=0; i<_nrows; i++) _rows[i] = A._rows[i];
+    _cols.resize(_ncols); for (GrB_Index j=0; j<_ncols; j++) _cols[j] = A._cols[j];
     _nvals = A.nvals();
 }
 
@@ -54,24 +54,21 @@ GrB_Matrix_t::GrB_Matrix_t
 )
 {
     _valid = true;
+    _copy = true;
     _D = A.D();
     if (transpose)
     {
         _nrows = A._ncols;
         _ncols = A._nrows;
-        _rows.resize(_nrows); for (GrB_Index i=0; i<_nrows; i++) _rows[i] = new GrB_Vector_t(A.D(),_ncols);
-        _cols.resize(_ncols); for (GrB_Index j=0; j<_ncols; j++) _cols[j] = new GrB_Vector_t(A.D(),_nrows);
-        for (GrB_Index i=0; i<_nrows; i++) _rows[i]->copy(A(i));
-        for (GrB_Index j=0; j<_ncols; j++) _cols[j]->copy(A[j]);
+        _rows.resize(_nrows); for (GrB_Index i=0; i<_nrows; i++) _rows[i] = A._cols[i];
+        _cols.resize(_ncols); for (GrB_Index j=0; j<_ncols; j++) _cols[j] = A._rows[j];
     }
     else
     {
         _nrows = A._nrows;
         _ncols = A._ncols;
-        _rows.resize(_nrows); for (GrB_Index i=0; i<_nrows; i++) _rows[i] = new GrB_Vector_t(A.D(),_ncols);
-        _cols.resize(_ncols); for (GrB_Index j=0; j<_ncols; j++) _cols[j] = new GrB_Vector_t(A.D(),_nrows);
-        for (GrB_Index i=0; i<_nrows; i++) _rows[i]->copy(A[i]);
-        for (GrB_Index j=0; j<_ncols; j++) _cols[j]->copy(A(j));
+        _rows.resize(_nrows); for (GrB_Index i=0; i<_nrows; i++) _rows[i] = A._rows[i];
+        _cols.resize(_ncols); for (GrB_Index j=0; j<_ncols; j++) _cols[j] = A._cols[j];
     }
     _nvals = A.nvals();
 }
@@ -84,6 +81,7 @@ GrB_Matrix_t::GrB_Matrix_t
 )
 {
     _valid = true;
+    _copy = false;
     _D = D;
     _nrows = nrows;
     _ncols = ncols;
@@ -96,6 +94,7 @@ GrB_Matrix_t::~GrB_Matrix_t
 (
 )
 {
+    if (_copy) return;
     for (GrB_Index i=0; i<nrows(); i++) delete _rows[i];
     for (GrB_Index j=0; j<ncols(); j++) delete _cols[j];
 }
@@ -105,6 +104,8 @@ bool GrB_Matrix_t::copy
    const GrB_Matrix_t&  A
 )
 {
+    assert(!_copy);
+
     if (_valid)
     {
         clear();
@@ -113,6 +114,7 @@ bool GrB_Matrix_t::copy
     }
 
     _valid = true;
+    _copy = false;
     _D = A.D();
     _nrows = A._nrows;
     _ncols = A._ncols;
@@ -129,6 +131,8 @@ bool GrB_Matrix_t::clear
 (
 )
 {
+    assert(!_copy);
+
     _nvals = 0;
     for (GrB_Index i=0; i<nrows(); i++) _rows[i]->clear();
     for (GrB_Index j=0; j<ncols(); j++) _cols[j]->clear();
@@ -143,7 +147,10 @@ bool GrB_Matrix_t::init
    GrB_Index    ncols
 )
 {
+    assert(!_copy);
+
     _valid = true;
+    _copy = false;
     _D = D;
     _nrows = nrows;
     _ncols = ncols;
@@ -193,6 +200,8 @@ bool GrB_Matrix_t::transpose
     const GrB_Matrix_t& A
 )
 {
+    assert(!_copy);
+
     GrB_Index m = nrows();
     GrB_Index n = ncols();
     assert(n == A.nrows());
@@ -212,6 +221,8 @@ bool GrB_Matrix_t::replace
     const GrB_Matrix_t& Matrix
 )
 {
+    assert(!_copy);
+
     GrB_Index m = nrows();
     GrB_Index n = ncols();
     assert(m == Matrix.nrows());
@@ -232,6 +243,8 @@ bool GrB_Matrix_t::merge
     const GrB_Matrix_t& Matrix
 )
 {
+    assert(!_copy);
+
     GrB_Index m = nrows();
     GrB_Index n = ncols();
     assert(m == Matrix.nrows());
@@ -252,6 +265,8 @@ bool GrB_Matrix_t::clear
     GrB_Index   j
 )
 {
+    assert(!_copy);
+
     assert(i < nrows());
     assert(j < ncols());
 
@@ -273,6 +288,8 @@ void GrB_Matrix_t::addElement
     const GrB_BinaryOp_t&       dup
 )
 {
+    assert(!_copy);
+
     assert(i < nrows());
     assert(j < ncols());
 
@@ -288,14 +305,16 @@ void GrB_Matrix_t::addElement
     const Scalar&       s
 )
 {
-     assert(i < nrows());
-     assert(j < ncols());
+    assert(!_copy);
 
-     clear(i,j);
-     _nvals++;
+    assert(i < nrows());
+    assert(j < ncols());
 
-     _rows[i]->addElement(j,s);
-     _cols[j]->addElement(i,s);
+    clear(i,j);
+    _nvals++;
+
+    _rows[i]->addElement(j,s);
+    _cols[j]->addElement(i,s);
 }
 
 const GrB_Vector_t& GrB_Matrix_t::operator[]
@@ -321,6 +340,8 @@ bool GrB_Matrix_t::mul
     const GrB_Matrix_t&         B
 )
 {
+    assert(!_copy);
+
     for (GrB_Index i=0; i<nrows(); i++) _rows[i]->mul(op,A[i],B[i]);
     for (GrB_Index j=0; j<ncols(); j++) _cols[j]->mul(op,A(j),B(j));
     return true;
@@ -333,6 +354,8 @@ bool GrB_Matrix_t::mul
     const GrB_Matrix_t&         B
 )
 {
+    assert(!_copy);
+
     for (GrB_Index i=0; i<nrows(); i++) _rows[i]->mul(op,A[i],B[i]);
     for (GrB_Index j=0; j<ncols(); j++) _cols[j]->mul(op,A(j),B(j));
     return true;
@@ -345,6 +368,8 @@ bool GrB_Matrix_t::mul
     const GrB_Matrix_t&         B
 )
 {
+    assert(!_copy);
+
     for (GrB_Index i=0; i<nrows(); i++) _rows[i]->mul(op,A[i],B[i]);
     for (GrB_Index j=0; j<ncols(); j++) _cols[j]->mul(op,A(j),B(j));
     return true;
@@ -357,6 +382,8 @@ bool GrB_Matrix_t::add
     const GrB_Matrix_t&         B
 )
 {
+    assert(!_copy);
+
     for (GrB_Index i=0; i<nrows(); i++) _rows[i]->add(op,A[i],B[i]);
     for (GrB_Index j=0; j<ncols(); j++) _cols[j]->add(op,A(j),B(j));
     return true;
@@ -369,6 +396,8 @@ bool GrB_Matrix_t::add
     const GrB_Matrix_t&         B
 )
 {
+    assert(!_copy);
+
     for (GrB_Index i=0; i<nrows(); i++) _rows[i]->add(op,A[i],B[i]);
     for (GrB_Index j=0; j<ncols(); j++) _cols[j]->add(op,A(j),B(j));
     return true;
@@ -381,6 +410,8 @@ bool GrB_Matrix_t::add
     const GrB_Matrix_t&         B
 )
 {
+    assert(!_copy);
+
     for (GrB_Index i=0; i<nrows(); i++) _rows[i]->add(op,A[i],B[i]);
     for (GrB_Index j=0; j<ncols(); j++) _cols[j]->add(op,A(j),B(j));
     return true;

@@ -30,22 +30,21 @@ GrB_mask_t::GrB_mask_t
     if (m == GrB_NULL)
     {
         _size = v.size();
-        _ind = new uset<GrB_Index>;
-        if (!scmp) for (GrB_Index i = 0; i<_size; i++) _ind->insert(i);
+        _ind = scmp ? new uset<GrB_Index>(_size) : 0;
     }
     else
     {
-	_size = m->size();
-	_ind = new uset<GrB_Index>;
-	if (scmp)
-	{
-	    for (GrB_Index i = 0; i<_size; i++) _ind->insert(i);
-	    for (auto k : *(m->ind())) _ind->erase(k);
-	}
-	else
-	{
-	    for (auto k : *(m->ind())) _ind->insert(k);
-	}
+        _size = m->size();
+        _ind = new uset<GrB_Index>(_size);
+        if (scmp)
+        {
+            for (GrB_Index i = 0; i<_size; i++) _ind->insert(i);
+            for (auto k : *(m->ind())) if (*((bool*)((void*)((*m)[k](GrB_BOOL))))) _ind->erase(k);
+        }
+        else
+        {
+            for (auto k : *(m->ind())) if (*((bool*)((void*)((*m)[k](GrB_BOOL))))) _ind->insert(k);
+        }
     }
 }
 
@@ -68,6 +67,15 @@ GrB_Index GrB_mask_t::size
 ) const
 {
     return _size;
+}
+
+bool GrB_mask_t::full
+(
+) const
+{
+    if (0 == _ind) return true;
+    if (_ind->size() == _size) return true;
+    return false;
 }
 
 GrB_Mask_t::GrB_Mask_t

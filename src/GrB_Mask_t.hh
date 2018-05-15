@@ -29,11 +29,12 @@ private:
 
 public:
 
-   GrB_mask_t(bool, const GrB_Vector_t*, const GrB_Vector_t&);
+    GrB_mask_t(bool, const GrB_Vector_t*, const GrB_Vector_t&);
     ~GrB_mask_t();
 
     GrB_Index                   size() const;
     const uset<GrB_Index>       *ind() const;
+    bool                        full() const;
 };
 
 struct GrB_Mask_t

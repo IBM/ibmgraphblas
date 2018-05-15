@@ -27,19 +27,55 @@ private:
     bool        _valid;
     size_t      _size;
 
-    template<class IN> void *clone(IN) const;
-    void        *clone(const void*) const;
+    void *clone(const void*) const;
 
 public:
 
     GrB_Type_t(size_t);
-    ~GrB_Type_t();
+    virtual ~GrB_Type_t();
 
-    bool        valid() const;
-    size_t      size() const;
-    bool        predefined() const;
-    bool        compatible(GrB_Type) const;
-    void        *clone(const void*,const GrB_Type) const;
+    bool          valid() const;
+    size_t        size() const;
+    virtual bool  predefined() const;
+    virtual bool  compatible(GrB_Type) const;
+    virtual void *clone(const void*,const GrB_Type) const;
+
+    virtual void  clone(bool*    ,const void*) const;
+    virtual void  clone(int8_t*  ,const void*) const;
+    virtual void  clone(uint8_t* ,const void*) const;
+    virtual void  clone(int16_t* ,const void*) const;
+    virtual void  clone(uint16_t*,const void*) const;
+    virtual void  clone(int32_t* ,const void*) const;
+    virtual void  clone(uint32_t*,const void*) const;
+    virtual void  clone(int64_t* ,const void*) const;
+    virtual void  clone(uint64_t*,const void*) const;
+    virtual void  clone(float*   ,const void*) const;
+    virtual void  clone(double*  ,const void*) const;
+};
+
+template<typename T>
+class Type : public GrB_Type_t
+{
+public:
+
+    Type();
+    virtual ~Type();
+
+    virtual bool  predefined() const;
+    virtual bool  compatible(GrB_Type) const;
+    virtual void *clone(const void*,const GrB_Type) const;
+
+    virtual void  clone(bool*    ,const void*) const;
+    virtual void  clone(int8_t*  ,const void*) const;
+    virtual void  clone(uint8_t* ,const void*) const;
+    virtual void  clone(int16_t* ,const void*) const;
+    virtual void  clone(uint16_t*,const void*) const;
+    virtual void  clone(int32_t* ,const void*) const;
+    virtual void  clone(uint32_t*,const void*) const;
+    virtual void  clone(int64_t* ,const void*) const;
+    virtual void  clone(uint64_t*,const void*) const;
+    virtual void  clone(float*   ,const void*) const;
+    virtual void  clone(double*  ,const void*) const;
 };
 
 #endif // GRB_TYPE_T_H

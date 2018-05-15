@@ -31,6 +31,7 @@ private:
     vector<GrB_Vector>          _rows;
     vector<GrB_Vector>          _cols;
     bool                        _valid;
+    bool			_copy;
 
 public:
 

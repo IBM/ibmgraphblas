@@ -36,7 +36,7 @@ GrB_Vector_t::GrB_Vector_t
     _valid = true;
     _D = u.D();
     _size = u.size();
-    _ind = new uset<GrB_Index>;
+    _ind = new uset<GrB_Index>(_size);
     _map = new umap<GrB_Index,void*>;
     for (auto it : *u._map)
     {
@@ -54,7 +54,7 @@ GrB_Vector_t::GrB_Vector_t
     _valid = true;
     _D = D;
     _size = size;
-    _ind = new uset<GrB_Index>;
+    _ind = new uset<GrB_Index>(_size);
     _map = new umap<GrB_Index,void*>;
 }
 
@@ -102,7 +102,7 @@ bool GrB_Vector_t::clear
     }
     delete _map;
     delete _ind;
-    _ind = new uset<GrB_Index>;
+    _ind = new uset<GrB_Index>(_size);
     _map = new umap<GrB_Index,void*>;
     return true;
 }
@@ -191,7 +191,7 @@ bool GrB_Vector_t::copy
         _valid = true;
         _D = u.D();
         _size = u.size();
-        _ind = new uset<GrB_Index>;
+        _ind = new uset<GrB_Index>(_size);
         _map = new umap<GrB_Index,void*>;
     }
     for (auto it : *u._map)
@@ -214,7 +214,7 @@ bool GrB_Vector_t::replace
     assert(n == Vector.size());
 
     clear();
-    if (mask.ind()->size() == n)
+    if (mask.full())
     {
         // full mask - write all elements from vector
         for (auto i : (*Vector.ind())) addElement(i,Vector[i]);
@@ -238,7 +238,7 @@ bool GrB_Vector_t::merge
     assert(n == mask.size());
     assert(n == Vector.size());
 
-    if (mask.ind()->size() == n)
+    if (mask.full())
     {
         // full mask - erase all elements and replace with new vector
         clear();
@@ -377,7 +377,7 @@ bool GrB_Vector_t::init
     _valid = true;
     _D = D;
     _size = size;
-    _ind = new uset<GrB_Index>;
+    _ind = new uset<GrB_Index>(_size);
     _map = new umap<GrB_Index,void*>;
 
     return true;
@@ -435,7 +435,7 @@ void GrB_Vector_t::Axb
     clear();
     for (GrB_Index i = 0; i<m; i++)
     {
-        uset<GrB_Index> Intersect;
+        uset<GrB_Index> Intersect(n);
         const uset<GrB_Index> *intersect;
         if      (A[i].ind()->size() == n) { intersect = b.ind(); }
         else if (b.ind()->size() == n)    { intersect = A[i].ind(); }
@@ -461,7 +461,7 @@ void GrB_Vector_t::axB
     clear();
     for (GrB_Index j = 0; j<n; j++)
     {
-        uset<GrB_Index> Intersect;
+        uset<GrB_Index> Intersect(m);
         const uset<GrB_Index> *intersect;
         if      (a.ind()->size() == m)    { intersect = B(j).ind(); }
         else if (B(j).ind()->size() == m) { intersect = a.ind(); }

@@ -27,9 +27,28 @@
 #include <utility>
 #include <assert.h>
 
-#define uset std::unordered_set
-#define umap std::unordered_map
 #define vector std::vector
+
+template<class T>
+struct uset : public std::unordered_set<T>
+{
+private:
+
+    GrB_Index   _capacity;
+
+public:
+
+    uset(GrB_Index);
+    virtual ~uset();
+
+    virtual GrB_Index   capacity() const;
+    virtual bool        full() const;
+};
+
+template<class T1, class T2>
+struct umap : public std::unordered_map<T1,T2>
+{
+};
 
 void uset_intersection(uset<GrB_Index>&, const uset<GrB_Index>&, const uset<GrB_Index>&);
 void uset_union       (uset<GrB_Index>&, const uset<GrB_Index>&, const uset<GrB_Index>&);

@@ -22,6 +22,38 @@
 #include <string.h>
 #include <iostream>
 
+template<>
+GrB_Index       uset<GrB_Index>::capacity
+(
+) const
+{
+    return _capacity;
+}
+
+template<>
+uset<GrB_Index>::~uset
+(
+)
+{
+}
+
+template<>
+bool uset<GrB_Index>::full
+(
+) const
+{
+    return (_capacity == size());
+}
+
+template<>
+uset<GrB_Index>::uset
+(
+    GrB_Index  N
+) : std::unordered_set<GrB_Index>()
+{
+    _capacity = N;
+}
+
 void            *const GrB_NULL           = 0;
 const GrB_Index *const GrB_ALL            = (const GrB_Index*)-1;
 void            *const GrB_INVALID_HANDLE = (void*)-2;
@@ -233,17 +265,17 @@ GrB_Info GrB_init
 )
 {
     // Create default types
-    if (GrB_SUCCESS != GrB_Type_new(&GrB_BOOL  , sizeof(bool)    )) return GrB_PANIC;
-    if (GrB_SUCCESS != GrB_Type_new(&GrB_INT8  , sizeof(int8_t)  )) return GrB_PANIC;
-    if (GrB_SUCCESS != GrB_Type_new(&GrB_UINT8 , sizeof(uint8_t) )) return GrB_PANIC;
-    if (GrB_SUCCESS != GrB_Type_new(&GrB_INT16 , sizeof(int16_t) )) return GrB_PANIC;
-    if (GrB_SUCCESS != GrB_Type_new(&GrB_UINT16, sizeof(uint16_t))) return GrB_PANIC;
-    if (GrB_SUCCESS != GrB_Type_new(&GrB_INT32 , sizeof(int32_t) )) return GrB_PANIC;
-    if (GrB_SUCCESS != GrB_Type_new(&GrB_UINT32, sizeof(uint32_t))) return GrB_PANIC;
-    if (GrB_SUCCESS != GrB_Type_new(&GrB_INT64 , sizeof(int64_t) )) return GrB_PANIC;
-    if (GrB_SUCCESS != GrB_Type_new(&GrB_UINT64, sizeof(uint64_t))) return GrB_PANIC;
-    if (GrB_SUCCESS != GrB_Type_new(&GrB_FP32  , sizeof(float)   )) return GrB_PANIC;
-    if (GrB_SUCCESS != GrB_Type_new(&GrB_FP64  , sizeof(double)  )) return GrB_PANIC;
+    if ((GrB_BOOL   = new Type<bool    >()) == 0) return GrB_PANIC;
+    if ((GrB_INT8   = new Type<int8_t  >()) == 0) return GrB_PANIC;
+    if ((GrB_UINT8  = new Type<uint8_t >()) == 0) return GrB_PANIC;
+    if ((GrB_INT16  = new Type<int16_t >()) == 0) return GrB_PANIC;
+    if ((GrB_UINT16 = new Type<uint16_t>()) == 0) return GrB_PANIC;
+    if ((GrB_INT32  = new Type<int32_t >()) == 0) return GrB_PANIC;
+    if ((GrB_UINT32 = new Type<uint32_t>()) == 0) return GrB_PANIC;
+    if ((GrB_INT64  = new Type<int64_t >()) == 0) return GrB_PANIC;
+    if ((GrB_UINT64 = new Type<uint64_t>()) == 0) return GrB_PANIC;
+    if ((GrB_FP32   = new Type<float   >()) == 0) return GrB_PANIC;
+    if ((GrB_FP64   = new Type<double  >()) == 0) return GrB_PANIC;
 
     // Create default unary/binary ops
     if (GrB_SUCCESS != GrB_UnaryOp_new (&GrB_LNOT, GrB_LNOT_F, GrB_BOOL, GrB_BOOL           )) return GrB_PANIC;
@@ -1743,6 +1775,17 @@ GrB_Info GrB_Matrix_extractElement_common
     {
         return e.info();
     }
+}
+
+GrB_Info GrB_Matrix_extractElement_BOOL
+(
+    bool               *val,
+    const GrB_Matrix    A,
+    GrB_Index           row_index,
+    GrB_Index           col_index
+)
+{
+    return GrB_Matrix_extractElement_common(val,GrB_BOOL,A,row_index,col_index);
 }
 
 GrB_Info GrB_Matrix_extractElement_INT8
@@ -3868,7 +3911,8 @@ uset<GrB_Index> operator*
     const uset<GrB_Index>& b
 )
 {
-    uset<GrB_Index> intersect;
+    assert(a.capacity() == b.capacity());
+    uset<GrB_Index> intersect(a.capacity());
     uset_intersection(intersect,a,b);
     return intersect;
 }
@@ -3879,7 +3923,8 @@ uset<GrB_Index> operator*
     const uset<GrB_Index>&   b
 )
 {
-    uset<GrB_Index> intersect;
+    assert(a.capacity() == b.size());
+    uset<GrB_Index> intersect(a.capacity());
     for (auto it = a.begin(); it != a.end(); ++it)
     {
         if (!b.count(*it)) intersect.insert(*it);
@@ -3893,7 +3938,8 @@ uset<GrB_Index> operator-
     const uset<GrB_Index>& b
 )
 {
-    uset<GrB_Index> difference;
+    assert(a.capacity() == b.capacity());
+    uset<GrB_Index> difference(a.capacity());
     uset_difference(difference,a,b);
     return difference;
 }

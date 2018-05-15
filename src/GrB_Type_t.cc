@@ -54,17 +54,6 @@ bool GrB_Type_t::predefined
 (
 ) const
 {
-    if (this == GrB_BOOL  ) return true;
-    if (this == GrB_INT8  ) return true;
-    if (this == GrB_UINT8 ) return true;
-    if (this == GrB_INT16 ) return true;
-    if (this == GrB_UINT16) return true;
-    if (this == GrB_INT32 ) return true;
-    if (this == GrB_UINT32) return true;
-    if (this == GrB_INT64 ) return true;
-    if (this == GrB_UINT64) return true;
-    if (this == GrB_FP32  ) return true;
-    if (this == GrB_FP64  ) return true;
     return false;
 }
 
@@ -74,43 +63,8 @@ bool GrB_Type_t::compatible
 ) const
 {
     if (this->predefined() && T->predefined()) return true;
+    if (this == T) return true;
     return false;
-}
-
-template<class OUT, class IN>
-static
-void *clone(OUT dummy, IN x)
-{
-    OUT *y = (OUT*)malloc(sizeof(OUT));
-    *y = x;
-    return y;
-}
-
-template<class T>
-static
-void *clone(const GrB_Type_t *type, T x)
-{
-    if (type == GrB_BOOL)   { bool      y; return ::clone(y, x); }
-    if (type == GrB_INT8)   { int8_t    y; return ::clone(y, x); }
-    if (type == GrB_UINT8)  { uint8_t   y; return ::clone(y, x); }
-    if (type == GrB_INT16)  { int16_t   y; return ::clone(y, x); }
-    if (type == GrB_UINT16) { uint16_t  y; return ::clone(y, x); }
-    if (type == GrB_INT32)  { int32_t   y; return ::clone(y, x); }
-    if (type == GrB_UINT32) { uint32_t  y; return ::clone(y, x); }
-    if (type == GrB_INT64)  { int64_t   y; return ::clone(y, x); }
-    if (type == GrB_UINT64) { uint64_t  y; return ::clone(y, x); }
-    if (type == GrB_FP32)   { float     y; return ::clone(y, x); }
-    if (type == GrB_FP64)   { double    y; return ::clone(y, x); }
-    assert(0 > 1);
-}
-
-template<class IN>
-void *GrB_Type_t::clone
-(
-    IN x
-) const
-{
-    return ::clone(this,x);
 }
 
 void *GrB_Type_t::clone
@@ -129,17 +83,272 @@ void *GrB_Type_t::clone
     const GrB_Type      type
 ) const
 {
-    if (type == GrB_BOOL  ) return clone(*((bool    *)x));
-    if (type == GrB_INT8  ) return clone(*((int8_t  *)x));
-    if (type == GrB_UINT8 ) return clone(*((uint8_t *)x));
-    if (type == GrB_INT16 ) return clone(*((int16_t *)x));
-    if (type == GrB_UINT16) return clone(*((uint16_t*)x));
-    if (type == GrB_INT32 ) return clone(*((int32_t *)x));
-    if (type == GrB_UINT32) return clone(*((uint32_t*)x));
-    if (type == GrB_INT64 ) return clone(*((int64_t *)x));
-    if (type == GrB_UINT64) return clone(*((uint64_t*)x));
-    if (type == GrB_FP32  ) return clone(*((float   *)x));
-    if (type == GrB_FP64  ) return clone(*((double  *)x));
     assert(type == this);
     return clone(x);
 }
+
+void GrB_Type_t::clone
+(
+    bool       *y,
+    const void *x
+) const
+{
+    assert(0 == 1);
+}
+
+void GrB_Type_t::clone
+(
+    int8_t     *y,
+    const void *x
+) const
+{
+    assert(0 == 1);
+}
+
+void GrB_Type_t::clone
+(
+    uint8_t    *y,
+    const void *x
+) const
+{
+    assert(0 == 1);
+}
+
+void GrB_Type_t::clone
+(
+    int16_t    *y,
+    const void *x
+) const
+{
+    assert(0 == 1);
+}
+
+void GrB_Type_t::clone
+(
+    uint16_t   *y,
+    const void *x
+) const
+{
+    assert(0 == 1);
+}
+
+void GrB_Type_t::clone
+(
+    int32_t    *y,
+    const void *x
+) const
+{
+    assert(0 == 1);
+}
+
+void GrB_Type_t::clone
+(
+    uint32_t   *y,
+    const void *x
+) const
+{
+    assert(0 == 1);
+}
+
+void GrB_Type_t::clone
+(
+    int64_t    *y,
+    const void *x
+) const
+{
+    assert(0 == 1);
+}
+
+void GrB_Type_t::clone
+(
+    uint64_t   *y,
+    const void *x
+) const
+{
+    assert(0 == 1);
+}
+
+void GrB_Type_t::clone
+(
+    float      *y,
+    const void *x
+) const
+{
+    assert(0 == 1);
+}
+
+void GrB_Type_t::clone
+(
+    double     *y,
+    const void *x
+) const
+{
+    assert(0 == 1);
+}
+
+template<typename T>
+Type<T>::Type
+(
+) : GrB_Type_t(sizeof(T))
+{
+}
+
+template<typename T>
+Type<T>::~Type
+(
+)
+{
+}
+
+template<typename T>
+bool Type<T>::predefined
+(
+) const
+{
+    return true;
+}
+
+template<typename T>
+bool Type<T>::compatible
+(
+    GrB_Type D
+) const
+{
+    if (predefined() && D->predefined()) return true;
+    if (this == D) return true;
+    return false;
+}
+
+template<typename T>
+void *Type<T>::clone
+(
+    void const      *x,
+    const GrB_Type   type
+) const
+{
+    T *y = new T;
+    type->clone(y,x);
+    return y;
+}
+
+template<typename T>
+void Type<T>::clone
+(
+    bool       *y,
+    const void *x
+) const
+{
+    *y = *((T*)x);
+}
+
+template<typename T>
+void Type<T>::clone
+(
+    int8_t     *y,
+    const void *x
+) const
+{
+    *y = *((T*)x);
+}
+
+template<typename T>
+void Type<T>::clone
+(
+    uint8_t    *y,
+    const void *x
+) const
+{
+    *y = *((T*)x);
+}
+
+template<typename T>
+void Type<T>::clone
+(
+    int16_t    *y,
+    const void *x
+) const
+{
+    *y = *((T*)x);
+}
+
+template<typename T>
+void Type<T>::clone
+(
+    uint16_t   *y,
+    const void *x
+) const
+{
+    *y = *((T*)x);
+}
+
+template<typename T>
+void Type<T>::clone
+(
+    int32_t    *y,
+    const void *x
+) const
+{
+    *y = *((T*)x);
+}
+
+template<typename T>
+void Type<T>::clone
+(
+    uint32_t   *y,
+    const void *x
+) const
+{
+    *y = *((T*)x);
+}
+
+template<typename T>
+void Type<T>::clone
+(
+    int64_t    *y,
+    const void *x
+) const
+{
+    *y = *((T*)x);
+}
+
+template<typename T>
+void Type<T>::clone
+(
+    uint64_t   *y,
+    const void *x
+) const
+{
+    *y = *((T*)x);
+}
+
+template<typename T>
+void Type<T>::clone
+(
+    float      *y,
+    const void *x
+) const
+{
+    *y = *((T*)x);
+}
+
+template<typename T>
+void Type<T>::clone
+(
+    double     *y,
+    const void *x
+) const
+{
+    *y = *((T*)x);
+}
+
+template class Type<bool>;
+template class Type<int8_t>;
+template class Type<uint8_t>;
+template class Type<int16_t>;
+template class Type<uint16_t>;
+template class Type<int32_t>;
+template class Type<uint32_t>;
+template class Type<int64_t>;
+template class Type<uint64_t>;
+template class Type<float>;
+template class Type<double>;

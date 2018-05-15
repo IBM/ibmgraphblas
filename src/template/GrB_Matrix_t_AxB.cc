@@ -62,7 +62,7 @@ void GrB_Matrix_t::AxB
     {
         for (GrB_Index j = 0; j<n; j++)
         {
-            uset<GrB_Index> Intersect;
+            uset<GrB_Index> Intersect(p);
             const uset<GrB_Index> *intersect;
             if      (A[i].ind()->size() == p) { intersect = B(j).ind(); }
             else if (B(j).ind()->size() == p) { intersect = A[i].ind(); }
