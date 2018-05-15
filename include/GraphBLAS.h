@@ -29,9 +29,11 @@ extern "C"
 #include <stdint.h>
 #include <stdbool.h>
 
-extern void *const GrB_NULL;
-extern void *const GrB_ALL;
-extern void *const GrB_INVALID_HANDLE;
+typedef uint64_t GrB_Index;
+
+extern void            *const GrB_NULL;
+extern const GrB_Index *const GrB_ALL;
+extern void            *const GrB_INVALID_HANDLE;
 
 typedef enum
 {
@@ -71,8 +73,6 @@ typedef enum
     GrB_SCMP,
     GrB_TRAN
 } GrB_Desc_Value;
-
-typedef uint64_t GrB_Index;
 
 typedef struct GrB_Type_t       *GrB_Type;
 typedef struct GrB_UnaryOp_t    *GrB_UnaryOp;

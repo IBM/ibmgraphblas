@@ -22,9 +22,9 @@
 #include <string.h>
 #include <iostream>
 
-void *const GrB_NULL           = 0;
-void *const GrB_ALL            = (void*)-1;
-void *const GrB_INVALID_HANDLE = (void*)-2;
+void            *const GrB_NULL           = 0;
+const GrB_Index *const GrB_ALL            = (const GrB_Index*)-1;
+void            *const GrB_INVALID_HANDLE = (void*)-2;
 
 // Section 2.5 Domains
 
