@@ -209,9 +209,8 @@ bool GrB_Vector_t::replace
     const GrB_Vector_t& Vector
 )
 {
-    GrB_Index n = size();
-    assert(n == mask.size());
-    assert(n == Vector.size());
+    assert(size() == mask.size());
+    assert(size() == Vector.size());
 
     clear();
     if (mask.full())
@@ -234,9 +233,8 @@ bool GrB_Vector_t::merge
     const GrB_Vector_t& Vector
 )
 {
-    GrB_Index n = size();
-    assert(n == mask.size());
-    assert(n == Vector.size());
+    assert(size() == mask.size());
+    assert(size() == Vector.size());
 
     if (mask.full())
     {
