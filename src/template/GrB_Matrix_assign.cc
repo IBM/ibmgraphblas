@@ -130,6 +130,166 @@ GrB_Info GrB_Matrix_assign_BOOL
     return GrB_Matrix_assign_common(C,Mask,accum,&val,GrB_BOOL,row_indices,nrows,col_indices,ncols,desc);
 }
 
+GrB_Info GrB_Matrix_assign_INT8
+(
+    GrB_Matrix                  C,
+    const GrB_Matrix            Mask,
+    const GrB_BinaryOp          accum,
+    int8_t                      val,
+    const GrB_Index            *row_indices,
+    GrB_Index                   nrows,
+    const GrB_Index            *col_indices,
+    GrB_Index                   ncols,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Matrix_assign_common(C,Mask,accum,&val,GrB_INT8,row_indices,nrows,col_indices,ncols,desc);
+}
+
+GrB_Info GrB_Matrix_assign_UINT8
+(
+    GrB_Matrix                  C,
+    const GrB_Matrix            Mask,
+    const GrB_BinaryOp          accum,
+    uint8_t                     val,
+    const GrB_Index            *row_indices,
+    GrB_Index                   nrows,
+    const GrB_Index            *col_indices,
+    GrB_Index                   ncols,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Matrix_assign_common(C,Mask,accum,&val,GrB_UINT8,row_indices,nrows,col_indices,ncols,desc);
+}
+
+GrB_Info GrB_Matrix_assign_INT16
+(
+    GrB_Matrix                  C,
+    const GrB_Matrix            Mask,
+    const GrB_BinaryOp          accum,
+    int16_t                     val,
+    const GrB_Index            *row_indices,
+    GrB_Index                   nrows,
+    const GrB_Index            *col_indices,
+    GrB_Index                   ncols,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Matrix_assign_common(C,Mask,accum,&val,GrB_INT16,row_indices,nrows,col_indices,ncols,desc);
+}
+
+GrB_Info GrB_Matrix_assign_UINT16
+(
+    GrB_Matrix                  C,
+    const GrB_Matrix            Mask,
+    const GrB_BinaryOp          accum,
+    uint16_t                    val,
+    const GrB_Index            *row_indices,
+    GrB_Index                   nrows,
+    const GrB_Index            *col_indices,
+    GrB_Index                   ncols,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Matrix_assign_common(C,Mask,accum,&val,GrB_UINT16,row_indices,nrows,col_indices,ncols,desc);
+}
+
+GrB_Info GrB_Matrix_assign_INT32
+(
+    GrB_Matrix                  C,
+    const GrB_Matrix            Mask,
+    const GrB_BinaryOp          accum,
+    int32_t                     val,
+    const GrB_Index            *row_indices,
+    GrB_Index                   nrows,
+    const GrB_Index            *col_indices,
+    GrB_Index                   ncols,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Matrix_assign_common(C,Mask,accum,&val,GrB_INT32,row_indices,nrows,col_indices,ncols,desc);
+}
+
+GrB_Info GrB_Matrix_assign_UINT32
+(
+    GrB_Matrix                  C,
+    const GrB_Matrix            Mask,
+    const GrB_BinaryOp          accum,
+    uint32_t                    val,
+    const GrB_Index            *row_indices,
+    GrB_Index                   nrows,
+    const GrB_Index            *col_indices,
+    GrB_Index                   ncols,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Matrix_assign_common(C,Mask,accum,&val,GrB_UINT32,row_indices,nrows,col_indices,ncols,desc);
+}
+
+GrB_Info GrB_Matrix_assign_INT64
+(
+    GrB_Matrix                  C,
+    const GrB_Matrix            Mask,
+    const GrB_BinaryOp          accum,
+    int64_t                     val,
+    const GrB_Index            *row_indices,
+    GrB_Index                   nrows,
+    const GrB_Index            *col_indices,
+    GrB_Index                   ncols,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Matrix_assign_common(C,Mask,accum,&val,GrB_INT64,row_indices,nrows,col_indices,ncols,desc);
+}
+
+GrB_Info GrB_Matrix_assign_UINT64
+(
+    GrB_Matrix                  C,
+    const GrB_Matrix            Mask,
+    const GrB_BinaryOp          accum,
+    uint64_t                    val,
+    const GrB_Index            *row_indices,
+    GrB_Index                   nrows,
+    const GrB_Index            *col_indices,
+    GrB_Index                   ncols,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Matrix_assign_common(C,Mask,accum,&val,GrB_UINT64,row_indices,nrows,col_indices,ncols,desc);
+}
+
+GrB_Info GrB_Matrix_assign_FP32
+(
+    GrB_Matrix                  C,
+    const GrB_Matrix            Mask,
+    const GrB_BinaryOp          accum,
+    float                       val,
+    const GrB_Index            *row_indices,
+    GrB_Index                   nrows,
+    const GrB_Index            *col_indices,
+    GrB_Index                   ncols,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Matrix_assign_common(C,Mask,accum,&val,GrB_FP32,row_indices,nrows,col_indices,ncols,desc);
+}
+
+GrB_Info GrB_Matrix_assign_FP64
+(
+    GrB_Matrix                  C,
+    const GrB_Matrix            Mask,
+    const GrB_BinaryOp          accum,
+    double                      val,
+    const GrB_Index            *row_indices,
+    GrB_Index                   nrows,
+    const GrB_Index            *col_indices,
+    GrB_Index                   ncols,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Matrix_assign_common(C,Mask,accum,&val,GrB_FP64,row_indices,nrows,col_indices,ncols,desc);
+}
+
 GrB_Info GrB_Matrix_assign_UDT
 (
     GrB_Matrix                  C,

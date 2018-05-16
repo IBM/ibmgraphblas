@@ -111,6 +111,62 @@ GrB_Info GrB_Vector_assign_BOOL
     return GrB_Vector_assign_common(w,mask,accum,&val,GrB_BOOL,indices,nindices,desc);
 }
 
+GrB_Info GrB_Vector_assign_INT8
+(
+    GrB_Vector                  w,
+    const GrB_Vector            mask,
+    const GrB_BinaryOp          accum,
+    int8_t                      val,
+    const GrB_Index            *indices,
+    GrB_Index                   nindices,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Vector_assign_common(w,mask,accum,&val,GrB_INT8,indices,nindices,desc);
+}
+
+GrB_Info GrB_Vector_assign_UINT8
+(
+    GrB_Vector                  w,
+    const GrB_Vector            mask,
+    const GrB_BinaryOp          accum,
+    uint8_t                     val,
+    const GrB_Index            *indices,
+    GrB_Index                   nindices,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Vector_assign_common(w,mask,accum,&val,GrB_UINT8,indices,nindices,desc);
+}
+
+GrB_Info GrB_Vector_assign_INT16
+(
+    GrB_Vector                  w,
+    const GrB_Vector            mask,
+    const GrB_BinaryOp          accum,
+    int16_t                     val,
+    const GrB_Index            *indices,
+    GrB_Index                   nindices,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Vector_assign_common(w,mask,accum,&val,GrB_INT16,indices,nindices,desc);
+}
+
+GrB_Info GrB_Vector_assign_UINT16
+(
+    GrB_Vector                  w,
+    const GrB_Vector            mask,
+    const GrB_BinaryOp          accum,
+    uint16_t                    val,
+    const GrB_Index            *indices,
+    GrB_Index                   nindices,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Vector_assign_common(w,mask,accum,&val,GrB_UINT16,indices,nindices,desc);
+}
+
 GrB_Info GrB_Vector_assign_INT32
 (
     GrB_Vector                  w,
@@ -123,6 +179,76 @@ GrB_Info GrB_Vector_assign_INT32
 )
 {
     return GrB_Vector_assign_common(w,mask,accum,&val,GrB_INT32,indices,nindices,desc);
+}
+
+GrB_Info GrB_Vector_assign_UINT32
+(
+    GrB_Vector                  w,
+    const GrB_Vector            mask,
+    const GrB_BinaryOp          accum,
+    uint32_t                    val,
+    const GrB_Index            *indices,
+    GrB_Index                   nindices,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Vector_assign_common(w,mask,accum,&val,GrB_UINT32,indices,nindices,desc);
+}
+
+GrB_Info GrB_Vector_assign_INT64
+(
+    GrB_Vector                  w,
+    const GrB_Vector            mask,
+    const GrB_BinaryOp          accum,
+    int64_t                     val,
+    const GrB_Index            *indices,
+    GrB_Index                   nindices,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Vector_assign_common(w,mask,accum,&val,GrB_INT64,indices,nindices,desc);
+}
+
+GrB_Info GrB_Vector_assign_UINT64
+(
+    GrB_Vector                  w,
+    const GrB_Vector            mask,
+    const GrB_BinaryOp          accum,
+    uint64_t                    val,
+    const GrB_Index            *indices,
+    GrB_Index                   nindices,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Vector_assign_common(w,mask,accum,&val,GrB_UINT64,indices,nindices,desc);
+}
+
+GrB_Info GrB_Vector_assign_FP32
+(
+    GrB_Vector                  w,
+    const GrB_Vector            mask,
+    const GrB_BinaryOp          accum,
+    float                       val,
+    const GrB_Index            *indices,
+    GrB_Index                   nindices,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Vector_assign_common(w,mask,accum,&val,GrB_FP32,indices,nindices,desc);
+}
+
+GrB_Info GrB_Vector_assign_FP64
+(
+    GrB_Vector                  w,
+    const GrB_Vector            mask,
+    const GrB_BinaryOp          accum,
+    double                      val,
+    const GrB_Index            *indices,
+    GrB_Index                   nindices,
+    const GrB_Descriptor        desc
+)
+{
+    return GrB_Vector_assign_common(w,mask,accum,&val,GrB_FP64,indices,nindices,desc);
 }
 
 GrB_Info GrB_Vector_assign_UDT
