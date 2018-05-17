@@ -843,7 +843,7 @@ GrB_Info GrB_Vector_setElement_common
         
         if ((w->ind()->count(index))) w->clear(index);
         Scalar x(type,val);
-        w->addElement(index,x);
+        w->addElement(index,x(w->D()));
 
         return GrB_SUCCESS;
     }
@@ -1603,7 +1603,7 @@ GrB_Info GrB_Matrix_setElement_common
         
         if ((*C)[row_index].ind()->count(col_index)) C->clear(row_index,col_index);
         Scalar x(type,val);
-        C->addElement(row_index,col_index,x);
+        C->addElement(row_index,col_index,x(C->D()));
 
         return GrB_SUCCESS;
     }
