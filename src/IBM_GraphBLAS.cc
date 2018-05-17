@@ -3776,7 +3776,7 @@ GrB_Info GrB_Matrix_reduce_BinaryOp
             Scalar sum(op->D_out());
             for (auto j : *(A_tilde[i].ind()))
             {
-                if (first) sum = A_tilde[i][j];
+                if (first) sum = A_tilde[i][j](op->D_out());
                 else op->f(sum,sum,A_tilde[i][j](op->D_in_2()));
                 first = false;
             }
