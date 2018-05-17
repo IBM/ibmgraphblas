@@ -3219,7 +3219,7 @@ GrB_Info GrB_Vector_assign
         {
             z_tilde.init(w->D(),w_tilde.size());
             for (auto i : *(w_tilde.ind()) - (I_tilde * (*(w_tilde.ind())))) z_tilde.addElement(i,w_tilde[i]);
-            for (auto i : *(t_tilde.ind())) z_tilde.addElement(i,t_tilde[i](w->D()));
+            for (auto i : *(t_tilde.ind())) { z_tilde.clear(i); z_tilde.addElement(i,t_tilde[i](w->D())); }
         }
 
         // Mask and replace
