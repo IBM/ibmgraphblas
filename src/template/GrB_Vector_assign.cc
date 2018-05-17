@@ -83,7 +83,7 @@ GrB_Info GrB_Vector_assign_common
         else
         {
             z_tilde.copy(w_tilde);
-            for (auto i : *(t_tilde.ind())) z_tilde.addElement(i,t_tilde[i]);
+            for (auto i : *(t_tilde.ind())) { z_tilde.clear(i); z_tilde.addElement(i,t_tilde[i]); }
         }
 
         // Mask and replace
