@@ -216,12 +216,12 @@ bool GrB_Vector_t::replace
     if (mask.full())
     {
         // full mask - write all elements from vector
-        for (auto i : (*Vector.ind())) addElement(i,Vector[i]);
+        for (auto i : (*Vector.ind())) addElement(i,Vector[i](D()));
     }
     else
     {
         // partial mask - write only those elements according to mask
-        for (auto i : (*mask.ind()) * (*Vector.ind())) addElement(i,Vector[i]);
+        for (auto i : (*mask.ind()) * (*Vector.ind())) addElement(i,Vector[i](D()));
     }
 
     return true;
@@ -240,13 +240,13 @@ bool GrB_Vector_t::merge
     {
         // full mask - erase all elements and replace with new vector
         clear();
-        for (auto i : (*Vector.ind())) addElement(i,Vector[i]);
+        for (auto i : (*Vector.ind())) addElement(i,Vector[i](D()));
     }
     else
     {
         // partial mask - replace only those elements according to mask
         for (auto i : (*mask.ind())) clear(i);
-        for (auto i : (*mask.ind()) * (*Vector.ind())) addElement(i,Vector[i]);
+        for (auto i : (*mask.ind()) * (*Vector.ind())) addElement(i,Vector[i](D()));
     }
 
     return true;
