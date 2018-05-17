@@ -3923,7 +3923,7 @@ uset<GrB_Index> operator*
     const uset<GrB_Index>&   b
 )
 {
-    assert(a.capacity() == b.size());
+    assert(a.size() == b.capacity());
     uset<GrB_Index> intersect(a.capacity());
     for (auto it = a.begin(); it != a.end(); ++it)
     {
