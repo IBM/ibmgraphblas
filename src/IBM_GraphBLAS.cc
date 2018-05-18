@@ -3377,8 +3377,8 @@ GrB_Info GrB_Col_assign
         }
 
         // Mask and replace
-        if (Replace || m_tilde.full()) for (auto i : *((*C)(col_index).ind()))   C->clear(i,col_index);
-        else                           for (auto i : (*(m_tilde.ind())))         C->clear(i,col_index);
+        if (Replace || m_tilde.full()) { uset<GrB_Index> ind = *((*C)(col_index).ind()); for (auto i : ind)                C->clear(i,col_index); }
+        else                           {                                                 for (auto i : (*(m_tilde.ind()))) C->clear(i,col_index); }
         if (m_tilde.full()) for (auto i : (*(z_tilde.ind()))) C->addElement(i,col_index,z_tilde[i](C->D()));
         else                for (auto i : (*(m_tilde.ind())) * (*(z_tilde.ind()))) C->addElement(i,col_index,z_tilde[i](C->D()));
 
