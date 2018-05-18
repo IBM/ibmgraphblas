@@ -3465,8 +3465,8 @@ GrB_Info GrB_Row_assign
         }
 
         // Mask and replace
-        if (Replace || m_tilde.full()) for (auto j : *((*C)[row_index].ind()))   C->clear(row_index,j);
-        else                           for (auto j : (*(m_tilde.ind())))         C->clear(row_index,j);
+        if (Replace || m_tilde.full()) { uset<GrB_Index> ind = *((*C)[row_index].ind()); for (auto j : ind)                C->clear(row_index,j); }
+        else                           {                                                 for (auto j : (*(m_tilde.ind()))) C->clear(row_index,j); }
         if (m_tilde.full()) for (auto j : (*(z_tilde.ind()))) C->addElement(row_index,j,z_tilde[j](C->D()));
         else                for (auto j : (*(m_tilde.ind())) * (*(z_tilde.ind()))) C->addElement(row_index,j,z_tilde[j](C->D()));
 
