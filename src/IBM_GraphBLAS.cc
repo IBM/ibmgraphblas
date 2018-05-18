@@ -3373,7 +3373,7 @@ GrB_Info GrB_Col_assign
         {
             z_tilde.init(C->D(),c_tilde.size());
             for (auto i : *(c_tilde.ind()) - (I_tilde * (*(c_tilde.ind())))) z_tilde.addElement(i,c_tilde[i]);
-            for (auto i : *(t_tilde.ind())) z_tilde.addElement(i,t_tilde[i]);
+            for (auto i : *(t_tilde.ind())) { z_tilde.clear(i); z_tilde.addElement(i,t_tilde[i](C->D())); }
         }
 
         // Mask and replace
@@ -3460,7 +3460,7 @@ GrB_Info GrB_Row_assign
         {
             z_tilde.init(C->D(),c_tilde.size());
             for (auto i : *(c_tilde.ind()) - (I_tilde * (*(c_tilde.ind())))) z_tilde.addElement(i,c_tilde[i]);
-            for (auto i : *(t_tilde.ind())) z_tilde.addElement(i,t_tilde[i]);
+            for (auto i : *(t_tilde.ind())) { z_tilde.clear(i); z_tilde.addElement(i,t_tilde[i](C->D())); }
         }
 
         // Mask and replace
