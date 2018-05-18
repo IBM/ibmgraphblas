@@ -3377,9 +3377,10 @@ GrB_Info GrB_Col_assign
         }
 
         // Mask and replace
-        if (Replace) for (auto i : *((*C)(col_index).ind()))   C->clear(i,col_index);
-        else         for (auto i : (*(m_tilde.ind())))         C->clear(i,col_index);
-        for (auto i : (*(m_tilde.ind())) * (*(z_tilde.ind()))) C->addElement(i,col_index,z_tilde[i]);
+        if (Replace || m_tilde.full()) for (auto i : *((*C)(col_index).ind()))   C->clear(i,col_index);
+        else                           for (auto i : (*(m_tilde.ind())))         C->clear(i,col_index);
+        if (m_tilde.full()) for (auto i : (*(z_tilde.ind()))) C->addElement(i,col_index,z_tilde[i](C->D()));
+        else                for (auto i : (*(m_tilde.ind())) * (*(z_tilde.ind()))) C->addElement(i,col_index,z_tilde[i](C->D()));
 
         return GrB_SUCCESS;
     }
@@ -3464,9 +3465,10 @@ GrB_Info GrB_Row_assign
         }
 
         // Mask and replace
-        if (Replace) for (auto j : *((*C)[row_index].ind()))   C->clear(row_index,j);
-        else         for (auto j : (*(m_tilde.ind())))         C->clear(row_index,j);
-        for (auto j : (*(m_tilde.ind())) * (*(z_tilde.ind()))) C->addElement(row_index,j,z_tilde[j]);
+        if (Replace || m_tilde.full()) for (auto j : *((*C)[row_index].ind()))   C->clear(row_index,j);
+        else                           for (auto j : (*(m_tilde.ind())))         C->clear(row_index,j);
+        if (m_tilde.full()) for (auto j : (*(z_tilde.ind()))) C->addElement(row_index,j,z_tilde[j](C->D()));
+        else                for (auto j : (*(m_tilde.ind())) * (*(z_tilde.ind()))) C->addElement(row_index,j,z_tilde[j](C->D()));
 
         return GrB_SUCCESS;
     }
