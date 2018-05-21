@@ -100,7 +100,7 @@ GrB_Info GrB_Matrix_assign_common
         {
             Z_tilde.copy(C_tilde);
             for (GrB_Index i=0; i<Z_tilde.nrows(); i++)
-                for (auto j : *(T_tilde[i].ind())) Z_tilde.addElement(i,j,T_tilde[i][j]);
+                for (auto j : *(T_tilde[i].ind())) Z_tilde.addElement(i,j,T_tilde[i][j](Z_tilde.D()));
         }
 
         // Mask and replace

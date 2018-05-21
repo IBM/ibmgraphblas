@@ -3292,7 +3292,7 @@ GrB_Info GrB_Matrix_assign
 
         // Perform the assignment
         for (GrB_Index i=0; i<nrows; i++)
-            GrB_Row_assign(C,(const GrB_Vector)&((*Mask)[i]),accum,(const GrB_Vector)&(A_tilde[i]),I_tilde[i],col_indices,ncols,desc);
+            GrB_Row_assign(C,Mask?((const GrB_Vector)&((*Mask)[i])):0,accum,(const GrB_Vector)&(A_tilde[i]),I_tilde[i],col_indices,ncols,desc);
 
         return GrB_SUCCESS;
     }

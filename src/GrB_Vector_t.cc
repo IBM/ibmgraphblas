@@ -265,10 +265,10 @@ bool GrB_Vector_t::add
     for (auto k : intersection)
     {
         op->f(axb,u[k](op->D_in_1()),v[k](op->D_in_2()));
-        addElement(k,axb);
+        addElement(k,axb(D()));
     }
-    for (auto k : *(u.ind()) - intersection) addElement(k,u[k]);
-    for (auto k : *(v.ind()) - intersection) addElement(k,v[k]);
+    for (auto k : *(u.ind()) - intersection) addElement(k,u[k](D()));
+    for (auto k : *(v.ind()) - intersection) addElement(k,v[k](D()));
     return true;
 }
 
@@ -285,10 +285,10 @@ bool GrB_Vector_t::add
     for (auto k : intersection)
     {
         op->f(axb,u[k](op->D_in_1()),v[k](op->D_in_2()));
-        addElement(k,axb);
+        addElement(k,axb(D()));
     }
-    for (auto k : *(u.ind()) - intersection) addElement(k,u[k]);
-    for (auto k : *(v.ind()) - intersection) addElement(k,v[k]);
+    for (auto k : *(u.ind()) - intersection) addElement(k,u[k](D()));
+    for (auto k : *(v.ind()) - intersection) addElement(k,v[k](D()));
     return true;
 }
 
@@ -305,10 +305,10 @@ bool GrB_Vector_t::add
     for (auto k : intersection)
     {
         op->add(axb,u[k](op->D_in_1()),v[k](op->D_in_2()));
-        addElement(k,axb);
+        addElement(k,axb(D()));
     }
-    for (auto k : *(u.ind()) - intersection) addElement(k,u[k]);
-    for (auto k : *(v.ind()) - intersection) addElement(k,v[k]);
+    for (auto k : *(u.ind()) - intersection) addElement(k,u[k](D()));
+    for (auto k : *(v.ind()) - intersection) addElement(k,v[k](D()));
     return true;
 }
 
@@ -325,7 +325,7 @@ bool GrB_Vector_t::mul
     for (auto k : intersection)
     {
         op->f(axb,u[k](op->D_in_1()),v[k](op->D_in_2()));
-        addElement(k,axb);
+        addElement(k,axb(D()));
     }
     return true;
 }
@@ -343,7 +343,7 @@ bool GrB_Vector_t::mul
     for (auto k : intersection)
     {
         op->f(axb,u[k](op->D_in_1()),v[k](op->D_in_2()));
-        addElement(k,axb);
+        addElement(k,axb(D()));
     }
     return true;
 }
@@ -361,7 +361,7 @@ bool GrB_Vector_t::mul
     for (auto k : intersection)
     {
         op->mul(axb,u[k](op->D_in_1()),v[k](op->D_in_2()));
-        addElement(k,axb);
+        addElement(k,axb(D()));
     }
     return true;
 }
@@ -441,7 +441,7 @@ void GrB_Vector_t::Axb
         if (intersect->empty()) continue;
         Scalar sum = S->zero();
         dot_product(sum,S,A[i],b,*intersect);
-        addElement(i,sum);
+        addElement(i,sum(D()));
     }
 }
 
@@ -467,6 +467,6 @@ void GrB_Vector_t::axB
         if (intersect->empty()) continue;
         Scalar sum = S->zero();
         dot_product(sum,S,a,B(j),*intersect);
-        addElement(j,sum);
+        addElement(j,sum(D()));
     }
 }

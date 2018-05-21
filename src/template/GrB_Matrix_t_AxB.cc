@@ -70,7 +70,7 @@ void GrB_Matrix_t::AxB
             if (intersect->empty()) continue;
             Scalar sum = S->zero();
             dot_product(sum,S,A[i],B(j),*intersect);
-            addElement(i,j,sum);
+            addElement(i,j,sum(D()));
         }
     }
 }
