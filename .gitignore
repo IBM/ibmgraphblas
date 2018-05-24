@@ -39,3 +39,6 @@
 
 # for mac
 .DS_Store
+
+# for eclipse
+.project
