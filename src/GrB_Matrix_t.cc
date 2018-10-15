@@ -232,7 +232,7 @@ bool GrB_Matrix_t::replace
 
     for (GrB_Index i = 0; i<m; i++) _rows[i]->replace(Mask[i],Matrix[i]);
     for (GrB_Index j = 0; j<n; j++) _cols[j]->replace(Mask(j),Matrix(j));
-    _nvals = 0; for (GrB_Index i = 0; i<m; i++) _nvals += _rows[i]->size();
+    _nvals = 0; for (GrB_Index i = 0; i<m; i++) _nvals += _rows[i]->nvals();
 
     return true;
 }
@@ -254,7 +254,7 @@ bool GrB_Matrix_t::merge
 
     for (GrB_Index i = 0; i<m; i++) _rows[i]->merge(Mask[i],Matrix[i]);
     for (GrB_Index j = 0; j<n; j++) _cols[j]->merge(Mask(j),Matrix(j));
-    _nvals = 0; for (GrB_Index i = 0; i<m; i++) _nvals += _rows[i]->size();
+    _nvals = 0; for (GrB_Index i = 0; i<m; i++) _nvals += _rows[i]->nvals();
 
     return true;
 }
