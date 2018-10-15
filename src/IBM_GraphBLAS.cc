@@ -232,6 +232,12 @@ template<class T> static void GrB_TIMES_F  (void* z, const void* x, const void* 
     *((T*)z) = *((const T*)x) * *((const T*)y);
 }
 
+template<> void GrB_TIMES_F<bool>  (void* z, const void* x, const void* y)
+{
+    assert(z); assert(x); assert(y);
+    *((bool*)z) = *((const bool*)x) && *((const bool*)y);
+}
+
 template<class T> static void GrB_DIV_F  (void* z, const void* x, const void* y)
 {
     assert(z); assert(x); assert(y);
@@ -1932,7 +1938,7 @@ GrB_Info GrB_Matrix_extractTuples_common
     if (!(A->D()->compatible(type)))            return GrB_DOMAIN_MISMATCH;
 
     *n = A->nvals();
-    uint32_t p = 0;
+    GrB_Index p = 0;
     for (GrB_Index i=0; i<A->nrows(); i++)
     {
         for (auto j : *((*A)[i].ind()))
